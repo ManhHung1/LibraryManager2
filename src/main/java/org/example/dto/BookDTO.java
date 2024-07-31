@@ -1,0 +1,20 @@
+package org.example.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.time.LocalDate;
+
+@Getter
+@Setter
+@AllArgsConstructor
+public class BookDTO {
+    private int id;
+    private String title;
+    private int authorId;
+    private int categoryId;
+    private Integer borrowerId; // Nullable, since the book might not be borrowed
+    private LocalDate borrowedDate;
+    private LocalDate returnedDate;
+}
