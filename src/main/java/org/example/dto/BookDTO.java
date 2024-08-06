@@ -14,7 +14,8 @@ public class BookDTO {
     private String title;
     private int authorId;
     private int categoryId;
-    private Integer borrowerId; // Nullable, since the book might not be borrowed
+
+    private Integer borrowerId;
     private LocalDate borrowedDate;
     private LocalDate returnedDate;
 }

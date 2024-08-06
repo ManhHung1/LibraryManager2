@@ -18,5 +18,5 @@ public class AuthorDTO {
 
     private int id;
     private String name;
-    private Set<Integer> bookIds; // Assuming you want to transfer book IDs instead of the entire Book entities
+    private Set<Integer> bookIds;
 }

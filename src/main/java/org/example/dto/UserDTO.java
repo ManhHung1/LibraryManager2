@@ -17,9 +17,4 @@ public class UserDTO {
     private String telephone;
     private String email;
 
-    public UserDTO(String username, String telephone, String email) {
-        this.username = username;
-        this.telephone = telephone;
-        this.email = email;
-    }
 }

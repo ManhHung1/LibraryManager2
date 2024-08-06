@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * Main application class to bootstrap and launch the Spring Boot application.
  */
+
 @SpringBootApplication
 public class App {
 

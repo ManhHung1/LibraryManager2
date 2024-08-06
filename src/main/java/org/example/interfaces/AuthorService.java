@@ -1,6 +1,5 @@
 package org.example.interfaces;
 
-import org.example.dto.AuthorDTO;
 import org.example.model.Author;
 
 public interface AuthorService {

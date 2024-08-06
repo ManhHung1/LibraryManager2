@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
 
-    // For Excel export
+    // For Excel export only
     @Override
     public List<User> getAllUsers() {
         logger.info("Retrieving all users as entities.");
