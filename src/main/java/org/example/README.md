@@ -85,6 +85,7 @@ The Excel files has all the attributes of user except password for safety issues
 
 It is used to be able to see the API documentation at this website :
 http://localhost:8080/swagger-ui.html
+Everybody should be able to see the swagger API.
 
 ### Logback
 
