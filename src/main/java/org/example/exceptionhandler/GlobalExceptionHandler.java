@@ -1,5 +1,6 @@
 package org.example.exceptionhandler;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
@@ -28,7 +29,15 @@ public class GlobalExceptionHandler {
         } else if (ex instanceof IOException) {
             status = HttpStatus.INTERNAL_SERVER_ERROR;
             message = "I/O error occurred: " + ex.getMessage();
-        } else {
+        }  else if (ex instanceof IllegalArgumentException ) {
+            status = HttpStatus.BAD_REQUEST;
+            message = "Invalid argument: " + ex.getMessage();
+        }
+        else if (ex instanceof ExpiredJwtException ) {
+            status = HttpStatus.UNAUTHORIZED;
+            message = "JWT token has expired: " + ex.getMessage();
+        }
+        else {
             status = HttpStatus.INTERNAL_SERVER_ERROR;
             message = "An error occurred: " + ex.getMessage();
         }

@@ -1,5 +1,6 @@
 package org.example.scheduler;
 
+import lombok.AllArgsConstructor;
 import org.example.config.AppConfig;
 import org.example.interfaces.BookService;
 import org.example.interfaces.EmailService;
@@ -13,6 +14,7 @@ import java.util.List;
 
 // It sends email every minute (test) if there is any books borrowed by anybody
 @Component
+@AllArgsConstructor
 public class ReminderScheduler {
 
     @Autowired
@@ -25,8 +27,6 @@ public class ReminderScheduler {
 
     @Scheduled(cron = "0 * * * * ?") // Runs every minute
     public void sendReminderEmails() {
-        logger.info("YES");
-        logger.info("{}",bookService.hasBorrowedBooks());
         if (bookService.hasBorrowedBooks()) {
             LocalDate now = LocalDate.now();
             LocalDate reminderDate = now.plusDays(2);
