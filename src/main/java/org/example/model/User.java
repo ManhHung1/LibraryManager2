@@ -51,6 +51,10 @@ public class User {
     @Column(name="password", nullable=false)
     private String password;
 
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
+
     /**
      * Constructor for creating a User object without a password.
      * This is used for exporting and importing user data where passwords are not included.

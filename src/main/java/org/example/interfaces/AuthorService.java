@@ -8,5 +8,6 @@ public interface AuthorService {
 
     Author updateAuthor(int id, Author author);
 
-    // Additional methods for getting and deleting authors can be added as needed
+    boolean deleteAuthor(int id);
+
 }

@@ -10,7 +10,7 @@ public interface PostService {
     List<Post> getAllPosts();
     Post getPostById(int id);
     Post savePost(Post post);
-    void deletePost(int id);
+    boolean deletePost(int id);
 
     PostDTO getPostByIdDTO(int id);
 

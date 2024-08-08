@@ -48,8 +48,9 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void deleteComment(int id) {
+    public boolean deleteComment(int id) {
         commentRepository.deleteById(id);
+        return false;
     }
 
     private CommentDTO convertToDTO(Comment comment) {

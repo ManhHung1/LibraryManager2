@@ -1,7 +1,6 @@
 package org.example.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.dto.AuthorDTO;
 import org.example.interfaces.AuthorService;
 import org.example.model.Author;
 import org.example.repository.AuthorRepository;
@@ -43,6 +42,16 @@ public class AuthorServiceImpl implements AuthorService {
         } else {
             logger.warn("Author with ID: {} not found.", id);
             return null; // or throw an exception if preferred
+        }
+    }
+
+    @Override
+    public boolean deleteAuthor(int id) {
+        if (authorRepository.existsById(id)) {
+            authorRepository.deleteById(id);
+            return true;
+        } else {
+            return false;
         }
     }
 }

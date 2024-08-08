@@ -3,6 +3,7 @@ package org.example.service;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.UserDTO;
 import org.example.interfaces.UserService;
+import org.example.model.Role;
 import org.example.model.User;
 import org.example.repository.UserRepository;
 import org.slf4j.Logger;
@@ -10,6 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -62,10 +65,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void deleteUser(Integer id) {
+    public boolean deleteUser(Integer id) {
         logger.info("Deleting user with ID: {}", id);
         userRepository.deleteById(id);
         logger.debug("User with ID: {} deleted successfully.", id);
+        return true;
     }
 
     @Override
@@ -142,9 +146,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
 
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), new ArrayList<>());
-    }
+        // Check if the user has a role
+        Role userRole = user.getRole();
+        if (userRole == null) {
+            throw new UsernameNotFoundException("User does not have an assigned role.");
+        }
 
+        // Convert the single role to GrantedAuthority
+        GrantedAuthority authority = new SimpleGrantedAuthority(userRole.getName());
+
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(),
+                user.getPassword(),
+                List.of(authority) // Use List.of to create an immutable list with the single authority
+        );
+    }
     private UserDTO convertToDTO(User user) {
         return new UserDTO(user.getId(), user.getUsername(), user.getTelephone(), user.getEmail());
     }

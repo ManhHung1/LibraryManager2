@@ -4,11 +4,14 @@ import org.example.interfaces.AuthenticationService;
 import org.example.dto.AuthRequest;
 import org.example.dto.AuthResponse;
 import org.example.jwt.JwtUtil;
+import org.example.model.User;
+import org.example.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,15 +24,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private JwtUtil jwtUtil;
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private UserRepository userRepository;
 
     @Override
     public AuthResponse authenticate(AuthRequest authRequest) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
 
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getUsername());
-        final String jwt = jwtUtil.generateToken(userDetails.getUsername());
+        // Load the user from the database
+        User user = userRepository.findByUsername(authRequest.getUsername());
+
+        // Generate JWT token including the user's role
+        final String jwt = jwtUtil.generateToken(user);
 
         return new AuthResponse(jwt);
     }

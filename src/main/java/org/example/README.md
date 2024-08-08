@@ -99,3 +99,16 @@ It is used in order to have a secure application with encrypted password.
 
 Any book can be borrowed by only one person, who can only borrow 5 at a time.
 
+### Roles
+
+The library has 3 roles : 
+
+- **Admin**: Responsible for managing users, including adding, deleting, and assigning roles. The admin has comprehensive control over user permissions and rights within the library system.
+
+- **Manager**: Authorized to add and remove books from the library's database. The manager handles the overall book inventory and ensures that the catalog is up-to-date.
+
+- **Librarian**: Manages the borrowing and returning of books. The librarian oversees the process of book loans and returns, ensuring proper handling and tracking of borrowed materials.
+
+### Image upload
+
+As a manager, you will now be able to add some images in the book, so the user can see it.

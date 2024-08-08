@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.example.model.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -76,18 +77,26 @@ public class JwtUtil {
     }
 
     /**
-     * Generates a new JWT token for the specified username.
+     * Generates a new JWT token for the specified user.
+     * The token includes the username and role of the user.
      *
-     * @param username the username for which the token will be generated
+     * @param user the User object containing the user's information
      * @return the generated JWT token
      */
-    public String generateToken(String username) {
+    public String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, username);
+
+        // Adding the user's role to the claims
+        claims.put("role", user.getRole().getName());
+
+        System.out.println(user.getRole().getName());
+
+        // Creating the token with claims and the username
+        return createToken(claims, user.getUsername());
     }
 
     /**
-     * Creates a JWT token with the specified claims and subject.
+     * Creates a JWT token with the specified claims and subject (username).
      *
      * @param claims the claims to be included in the token
      * @param subject the subject (username) for the token

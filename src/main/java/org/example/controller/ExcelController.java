@@ -3,11 +3,13 @@ package org.example.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
 import org.example.interfaces.ExcelService;
 import org.example.interfaces.UserService;
 import org.example.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,18 +17,13 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/excel")
 @Tag(name = "Excel Management", description = "Operations related to managing excel import/export")
 public class ExcelController {
 
     private final UserService userService;
     private final ExcelService excelService;
-
-    @Autowired
-    public ExcelController(UserService userService, ExcelService excelService) {
-        this.userService = userService;
-        this.excelService = excelService;
-    }
 
     /**
      * Exports user data to an Excel file and writes it in an Excel excel-file.xlsx at the root of the project
@@ -35,6 +32,7 @@ public class ExcelController {
      * @throws IOException if an I/O error occurs during file writing
      */
     @GetMapping("/export")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Export users to an Excel file")
     public void exportUsers(HttpServletResponse response) throws IOException {
         List<User> users = userService.getAllUsers();
@@ -54,6 +52,7 @@ public class ExcelController {
      * @throws IOException if an I/O error occurs during file reading
      */
     @PostMapping("/import")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Import users from an Excel file")
     public ResponseEntity<String> importUsers() throws IOException {
         String filePath = "excel-file.xlsx"; // Update file path as needed

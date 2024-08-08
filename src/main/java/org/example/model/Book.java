@@ -34,4 +34,6 @@ public class Book {
     private LocalDate borrowedDate; // Date when the book was borrowed
 
     private LocalDate returnedDate; // Date when the book was returned
+
+    private String imageUrl; // URL or path to the book's image
 }

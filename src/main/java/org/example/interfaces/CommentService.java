@@ -12,5 +12,5 @@ public interface CommentService {
 
     CommentDTO saveComment(CommentDTO commentDTO);
 
-    void deleteComment(int id);
+    boolean deleteComment(int id);
 }

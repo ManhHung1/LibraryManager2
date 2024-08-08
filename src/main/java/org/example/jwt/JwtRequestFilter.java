@@ -26,8 +26,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUtil jwtUtil;
 
-    private static final String RESTRICTED_USERNAME = "library-admin";
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
@@ -37,16 +35,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         logger.info("Request URI: " + request.getRequestURI());
         logger.info("Authorization Header: " + requestTokenHeader);
 
-        if ("/api/auth/login".equals(request.getRequestURI())) {
-            // Skip JWT token handling for the login endpoint
-            chain.doFilter(request, response);
-            return;
-        }
-
         String username = null;
         String jwtToken = null;
 
-        if (requestTokenHeader != null) {
+        if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
             jwtToken = requestTokenHeader.substring(7);
             try {
                 username = jwtUtil.extractUsername(jwtToken);
@@ -64,13 +56,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
             if (jwtUtil.validateToken(jwtToken, userDetails)) {
                 // Check if the request is to a restricted endpoint and if the user is authorized
-                String requestURI = request.getRequestURI();
-                if ((requestURI.startsWith("/api/users") || requestURI.startsWith("/api/excel")) &&
-                        !RESTRICTED_USERNAME.equals(username)) {
-                    response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied");
-                    return;
-                }
-
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
                 usernamePasswordAuthenticationToken

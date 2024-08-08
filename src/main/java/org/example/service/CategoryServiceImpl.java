@@ -32,15 +32,14 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDTO saveCategory(CategoryDTO categoryDTO) {
-        Category category = convertToEntity(categoryDTO);
-        Category savedCategory = categoryRepository.save(category);
-        return convertToDTO(savedCategory);
+    public Category saveCategory(Category category) {
+        return categoryRepository.save(category);
     }
 
     @Override
-    public void deleteCategory(int id) {
+    public boolean deleteCategory(int id) {
         categoryRepository.deleteById(id);
+        return false;
     }
 
     private CategoryDTO convertToDTO(Category category) {
